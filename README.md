@@ -175,3 +175,59 @@ apply 可以接受任意数量的实参，只要最后一个实参是列表即�
 (return-fourth '(a b c d))
 
 4. 定义一个函数，接受两个实参，返回两者当中较大的那个。
+
+```
+(defun return-max (x y)
+  (if (eql x y)
+      x
+    (if (> x y)
+    x
+    y)))
+
+Break 6 [8]> (return-max -1 1)
+1
+```
+5. 这些函数做了什么？
+
+```
+(a) (defun enigma (x)
+      (and (not (null x)) ; return True if x is not null
+           (or (null (car x)) ; return True if the first character of x is null
+               (enigma (cdr x)))))
+
+; find out if x contains null
+
+; return the index of x in y
+(b) (defun mystery (x y)
+      (if (null y)
+          nil
+          (if (eql (car y) x) ; compare first character of y and x
+              0 ; if true, return 0
+              (let ((z (mystery x (cdr y)))) ; let z be the next character in y untill null
+                (and z (+ z 1)))))) ; z = z + 1
+                ```
+
+6. 下列表达式， x 该是什么，才会得到相同的结果？
+```
+(a) > (car (x (cdr '(a (b c) d))))
+    B
+    ; x = car
+(b) > (x 13 (/ 1 0))
+    13
+    ; x = or
+(c) > (x #'list 1 nil)
+    (1)
+    ```
+
+7. 只使用本章所介绍的操作符，定义一个函数，它接受一个列表作为实参，如果有一个元素是列表时，就返回真。
+(defun our-member (lst)
+  (if (null lst)
+      nil
+  (if (listp (car (cdr lst)))
+    T
+    (our-member (cdr lst)))))
+
+8. 给出函数的迭代与递归版本：
+a. 接受一个正整数，并打印出数字数量的点。
+
+b. 接受一个列表，并返回 a 在列表里所出现的次数。
