@@ -82,8 +82,96 @@ NIL
 ### Variables
 
 let 是一个最常用的 Common Lisp 的操作符之一，它让你引入新的局部变量（local variable）：
-``
+```
 > (let ((x 1) (y 2))
      (+ x y))
 3
-``
+```
+你可以给 defparameter 传入符号和值，来创建一个全局变量：
+```
+> (defparameter *glob* 99)
+*GLOB*
+```
+你也可以用 defconstant 来定义一个全局的常量：
+```
+(defconstant limit (+ *glob* 1))
+```
+
+### Assignment
+在 Common Lisp 里，最普遍的赋值操作符（assignment operator）是 setf 。可以用来给全局或局部变量赋值：
+```
+> (setf *glob* 98)
+98
+> (let ((n 10))
+   (setf n 2)
+   n)
+2
+```
+如果 setf 的第一个实参是符号（symbol），且符号不是某个局部变量的名字，则 setf 把这个符号设为全局变量：
+
+### Functional Programming
+
+函数式编程意味着撰写利用返回值而工作的程序，而不是修改东西。它是 Lisp 的主流范式。大部分 Lisp 的内置函数被调用是为了取得返回值，而不是副作用。
+
+### Iteration
+
+(variable initial update)
+
+### Functions as Objects
+
+apply 可以接受任意数量的实参，只要最后一个实参是列表即可
+```
+> (apply #'+ '(1 2 3))
+6
+> (+ 1 2 3)
+6
+> (apply #'+ 1 2 '(3 4 5))
+15
+```
+
+### Types
+
+函数 typep 接受一个对象和一个类型，然后判定对象是否为该类型，是的话就返回真：
+
+### summary:
+
+- Lisp 是一种交互式语言。如果你在顶层输入一个表达式， Lisp 会显示它的值。
+- Lisp 程序由表达式组成。表达式可以是原子，或一个由操作符跟着零个或多个实参的列表。前序表示法代表操作符可以有任意数量的实参。
+- Common Lisp 函数调用的求值规则： 依序对实参从左至右求值，接着把它们的值传入由操作符表示的函数。 quote 操作符有自己的求值规则，它完封不动地返回实参。
+- 除了一般的数据类型， Lisp 还有符号跟列表。由于 Lisp 程序是用列表来表示的，很轻松就能写出能编程的程序。
+- 三个基本的列表函数是 cons ，它创建一个列表； car ，它返回列表的第一个元素；以及 cdr ，它返回第一个元素之后的所有东西。
+- 在 Common Lisp 里， t 表示逻辑 真 ，而 nil 表示逻辑 假 。在逻辑的上下文里，任何非 nil 的东西都视为 真 。基本的条件式是 if 。 and 与 or 是相似的条件式。
+- Lisp 主要由函数所组成。可以用 defun 来定义新的函数。
+- 自己调用自己的函数是递归的。一个递归函数应该要被想成是过程，而不是机器。
+- 括号不是问题，因为程序员通过缩排来阅读与编写 Lisp 程序。
+- 基本的 I/O 函数是 read ，它包含了一个完整的 Lisp 语法分析器，以及 format ，它通过字符串模板来产生输出。
+- 你可以用 let 来创造新的局部变量，用 defparameter 来创造全局变量。
+- 赋值操作符是 setf 。它的第一个实参可以是一个表达式。
+- 函数式编程代表避免产生副作用，也是 Lisp 的主导思维。
+- 基本的迭代操作符是 do 。
+- 函数是 Lisp 的对象。可以被当成实参传入，并且可以用 lambda 表达式来表示。
+- 在 Lisp 里，是数值才有类型，而不是变量。
+
+### Exercises
+1. 描述下列表达式求值之后的结果：
+(a) (+ (- 5 1) (+ 3 7))
+14
+(b) (list 1 (+ 2 3))
+(1 5)
+(c) (if (listp 1) (+ 1 2) (+ 3 4))
+7
+(d) (list (and (listp 3) t) (+ 1 2))
+(NIL 3)
+
+2. 给出 3 种不同表示 (a b c) 的 cons 表达式 。
+(1). (cons '(a b c))
+(2). (cons 'a '(b c))
+(3). (cons 'a (cons 'b (cons 'c nil)))
+
+3. 使用 car 与 cdr 来定义一个函数，返回一个列表的第四个元素。
+(defun return-fourth(list)
+  (car (cdr (cdr (cdr list)))))
+
+(return-fourth '(a b c d))
+
+4. 定义一个函数，接受两个实参，返回两者当中较大的那个。
