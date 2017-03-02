@@ -231,3 +231,33 @@ Break 6 [8]> (return-max -1 1)
 a. 接受一个正整数，并打印出数字数量的点。
 
 b. 接受一个列表，并返回 a 在列表里所出现的次数。
+
+
+## black box abstraction
+
+- primitive objects
+--primitive procedures
+
+--primitive data
+
+- means of combination
+
+-- procedure composition
+
+-- construction of compound data
+
+- means of abstraction
+
+-- procedure definition
+
+-- simple data abstraction
+
+- capturing common patterns
+
+-- high order procedures
+
+-- data as procedures
+
+## conventional interfaces
+
+## metaliguistic abstraction
